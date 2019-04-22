@@ -29,8 +29,9 @@ var routeNames = ["893","269","237","244","342","235","248","234","232","221","2
 var routeInfoWindow = new google.maps.InfoWindow({ 
   disableAutoPan: true
 });          
+ 
           
-          
+         
 for (var i = 0; i < routeNames.length; i++) { // loop over each route
    var routeName = routeNames[i];
    for (var j = 0; j < allData[routeName].length; j++) { // loop over each path on the route
@@ -42,27 +43,46 @@ for (var i = 0; i < routeNames.length; i++) { // loop over each route
        var routePath = new google.maps.Polyline({
            path: polylinePoints,
            strokeColor: routeColors[routeName],
-           strokeOpacity: 0.5,
+           strokeOpacity: 1,
            strokeWeight: 2
            });
        
+       
       (function(thisRouteName) {
          google.maps.event.addListener(routePath, 'mouseover', function(moevent) {
+           this.setOptions({
+               strokeOpacity: 0.5,
+               strokeWeight: 10
+           });
            routeInfoWindow.setPosition(moevent.latLng);
            routeInfoWindow.setContent(thisRouteName);
-            routeInfoWindow.open(map);
+           routeInfoWindow.open(map);
           });
+        google.maps.event.addListener(routePath, 'mouseout', function(moevent) {
+            this.setOptions({
+                strokeOpacity: 1,
+                strokeWeight: 2
+            });
+        });
         })(routeName);
        
-       
-       
+
        
        
        routePath.setMap(map);
+        
+
    }
-}
+}        
+          
+        
+          
           
                 }
+       
+ 
+        
+        
       google.maps.event.addDomListener(window, 'load', initialize);
 
 
